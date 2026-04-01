@@ -28,10 +28,18 @@ export default function AdminMenu() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   
   // Form State
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    price: string;
+    category: "drinks" | "food" | "snacks";
+    image: string;
+    available: boolean;
+    description: string;
+    rating: number;
+  }>({
     name: "",
     price: "",
-    category: "drinks" as const,
+    category: "drinks",
     image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=1970&auto=format&fit=crop",
     available: true,
     description: "",
@@ -118,10 +126,10 @@ export default function AdminMenu() {
       {/* Header & Controls */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div className="flex items-center gap-4 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
-          {["all", "drinks", "food", "snacks"].map((f) => (
+          {(["all", "drinks", "food", "snacks"] as const).map((f) => (
             <button
               key={f}
-              onClick={() => setFilter(f as any)}
+              onClick={() => setFilter(f)}
               className={`px-6 py-2.5 rounded-2xl font-bold text-sm uppercase tracking-widest transition-all ${
                 filter === f 
                   ? "bg-accent-purple text-white shadow-lg shadow-accent-purple/20" 
@@ -263,7 +271,7 @@ export default function AdminMenu() {
                     <label className="text-white/60 text-xs font-black uppercase tracking-widest ml-1">Category</label>
                     <select
                       value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value as "drinks" | "food" | "snacks" })}
                       className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-accent-purple/50 transition-all appearance-none"
                     >
                       <option value="drinks">Drinks</option>
